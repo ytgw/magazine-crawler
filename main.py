@@ -1,7 +1,7 @@
 ######################################################################
 # import
 ######################################################################
-import os, logging
+import os, logging, time
 from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Literal
@@ -85,10 +85,13 @@ class MagazineSaleDate:
 
 
     def __init__(self, magazine: Magazine) -> None:
+        DELAY_TIME_SEC = 10
         self.magazine = magazine
         self.crawl_datetime = datetime.now()
         self.previous_sale_date = self.__crawl_sale_date(f'https://www.fujisan.co.jp/product/{self.magazine.id_}/new/')
+        time.sleep(DELAY_TIME_SEC)
         self.next_sale_date = self.__crawl_sale_date(f'https://www.fujisan.co.jp/product/{self.magazine.id_}/next/')
+        time.sleep(DELAY_TIME_SEC)
 
 
     def __crawl_sale_date(self, url: str) -> date:
