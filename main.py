@@ -1,13 +1,12 @@
 ######################################################################
 # import
 ######################################################################
-import os, logging, time
+import logging, os, time
 from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Literal
 
-import requests
-import urllib3
+import requests, urllib3
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent  #type: ignore
 
@@ -67,6 +66,11 @@ class WeekdayUtil:
         if english == 'Saturday':  return '土曜日'
         if english == 'Sunday':    return '日曜日'
         raise Exception(f'{english} is unknown weekday.')
+
+
+    @staticmethod
+    def int2japanese(num: int) -> str:
+        return WeekdayUtil().english2japanese(WeekdayUtil().int2str(num))
 
 
 @dataclass(frozen=True)
@@ -130,15 +134,18 @@ class MessageSender:
         today_weekday = WeekdayUtil().int2str(today.weekday())
 
         messages: list[str] = []
+        msg = f'{magazine_name}はいつも{WeekdayUtil().english2japanese(magazine_weekday)}に発売されますが、'
         # 休刊の連絡
         if today_weekday == magazine_weekday:
             if today not in [previous_sale_date, next_sale_date]:
-                messages.append(f'今日は{WeekdayUtil().english2japanese(magazine_weekday)}ですが、{magazine_name}は休刊です。')
+                rest_msg = f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず休刊です。'
+                rest_msg += f'次の発売日は{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
+                messages.append(msg + rest_msg)
 
         # 別曜日の発売の連絡
         if today in [previous_sale_date, next_sale_date]:
             if today_weekday != magazine_weekday:
-                messages.append(f'今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、{magazine_name}の発売日です。')
+                messages.append(msg + f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず{magazine_name}の発売日です。')
 
         return messages
 
