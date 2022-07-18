@@ -33,7 +33,7 @@ Weekday = Literal['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 
 class WeekdayUtil:
     @staticmethod
-    def str2int(string: Weekday) -> int:
+    def english2int(string: Weekday) -> int:
         if string == 'Monday':    return 0
         if string == 'Tuesday':   return 1
         if string == 'Wednesday': return 2
@@ -45,7 +45,7 @@ class WeekdayUtil:
 
 
     @staticmethod
-    def int2str(num: int) -> Weekday:
+    def int2english(num: int) -> Weekday:
         if num == 0: return 'Monday'
         if num == 1: return 'Tuesday'
         if num == 2: return 'Wednesday'
@@ -70,7 +70,7 @@ class WeekdayUtil:
 
     @staticmethod
     def int2japanese(num: int) -> str:
-        return WeekdayUtil().english2japanese(WeekdayUtil().int2str(num))
+        return WeekdayUtil().english2japanese(WeekdayUtil().int2english(num))
 
 
 @dataclass(frozen=True)
@@ -131,7 +131,7 @@ class MessageSender:
         next_sale_date = self.magazine_sale_date.next_sale_date
 
         magazine_weekday = self.magazine_sale_date.magazine.weekday
-        today_weekday = WeekdayUtil().int2str(today.weekday())
+        today_weekday = WeekdayUtil().int2english(today.weekday())
 
         messages: list[str] = []
         msg = f'{magazine_name}はいつも{WeekdayUtil().english2japanese(magazine_weekday)}に発売されますが、'
