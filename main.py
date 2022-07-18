@@ -6,9 +6,11 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Literal
 
-import requests, urllib3
+import requests, tweepy, urllib3
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent  #type: ignore
+
+from secret import API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 
 ######################################################################
@@ -112,15 +114,14 @@ class MagazineSaleDate:
 @dataclass(frozen=True)
 class MessageSender:
     magazine_sale_date: MagazineSaleDate
+    client: tweepy.Client  # type: ignore
 
 
     def send_message(self, today: date) -> None:
         messages = self.__make_message(today=today)
         self.__log(messages=messages)
-        if len(messages) > 0:
-            print(today)
-            print(messages)
-            print(self.magazine_sale_date)
+        for message in messages:
+            self.client.create_tweet(text=message)  # type: ignore
 
 
     def __make_message(self, today: date) -> list[str]:
@@ -181,9 +182,12 @@ if __name__ == '__main__':
         Magazine(id_='2680', name='週刊ヤングジャンプ', weekday='Thursday'),
         Magazine(id_='2685', name='週刊ヤングマガジン', weekday='Monday'),
     ]
+    client = tweepy.Client(consumer_key=API_KEY, consumer_secret=API_KEY_SECRET, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)  # type: ignore
+
+
     for magazine in MAGAZINES:
         try:
-            message_sender = MessageSender(magazine_sale_date=MagazineSaleDate(magazine=magazine))
+            message_sender = MessageSender(magazine_sale_date=MagazineSaleDate(magazine=magazine), client=client)  # type: ignore
             message_sender.send_message(today=date.today())
         except Exception as e:
             logger.error(e)
