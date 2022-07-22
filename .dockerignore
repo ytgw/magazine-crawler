@@ -1,0 +1,6 @@
+__pycache__/
+.mypy_cache/
+.vscode/
+typings/
+venv/
+magazine-crawler.log

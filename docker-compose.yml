@@ -1,0 +1,8 @@
+version: "3"
+services:
+  app:
+    build: .
+    environment:
+      - DEBUG=True
+    volumes:
+      - ./magazine-crawler.log:/app/magazine-crawler.log:rw
