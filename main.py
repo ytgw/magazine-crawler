@@ -135,17 +135,22 @@ class MessageSender:
         today_weekday = WeekdayUtil().int2english(today.weekday())
 
         messages: list[str] = []
-        msg = f'{magazine_name}はいつも{WeekdayUtil().english2japanese(magazine_weekday)}に発売されますが、'
         # 休刊の連絡
         if today_weekday == magazine_weekday:
             if today not in [previous_sale_date, next_sale_date]:
-                rest_msg = f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず休刊です。'
-                rest_msg += f'次の発売日は{next_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
-                messages.append(msg + rest_msg)
+                msg = f'【{magazine_name}休刊】'
+                msg += f'今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、いつもと違い{magazine_name}は休刊です。'
+                msg += f'次の発売日は{next_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
+                messages.append(msg)
 
         # 発売日の連絡
         if today in [previous_sale_date, next_sale_date]:
-            messages.append(msg + f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず{magazine_name}の発売日です。')
+            msg = f'【{magazine_name}発売日】'
+            if today_weekday != magazine_weekday:
+                msg += f'今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、いつもと違い{magazine_name}の発売日です。'
+            else:
+                msg += f'今日は{magazine_name}の発売日です。'
+            messages.append(msg)
 
         return messages
 
