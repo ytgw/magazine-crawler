@@ -121,7 +121,10 @@ class MessageSender:
         messages = self.__make_message(today=today)
         self.__log(messages=messages)
         for message in messages:
-            self.client.create_tweet(text=message)  # type: ignore
+            if os.environ.get('DEBUG') == 'False':
+                self.client.create_tweet(text=message)  # type: ignore
+            else:
+                print(message)
 
 
     def __make_message(self, today: date) -> list[str]:
