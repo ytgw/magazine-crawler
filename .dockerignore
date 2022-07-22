@@ -3,4 +3,5 @@ __pycache__/
 .vscode/
 typings/
 venv/
-magazine-crawler.log
+config/
+data/

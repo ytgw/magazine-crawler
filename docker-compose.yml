@@ -3,6 +3,6 @@ services:
   app:
     build: .
     env_file:
-      - docker-compose.env
+      - ./config/docker-compose.env
     volumes:
-      - ./magazine-crawler.log:/app/magazine-crawler.log:rw
+      - ./data/magazine-crawler.log:/app/data/magazine-crawler.log:rw

@@ -23,7 +23,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ign
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += "HIGH:!DH"  # type: ignore
 
 logging.basicConfig(
-    filename = os.path.join(os.path.dirname(__file__), 'magazine-crawler.log'),
+    filename = os.path.join(os.path.dirname(__file__), 'data', 'magazine-crawler.log'),
     format = '%(asctime)s %(levelname)s - %(message)s',
     level = logging.INFO
 )
