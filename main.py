@@ -143,10 +143,9 @@ class MessageSender:
                 rest_msg += f'次の発売日は{next_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
                 messages.append(msg + rest_msg)
 
-        # 別曜日の発売の連絡
+        # 発売日の連絡
         if today in [previous_sale_date, next_sale_date]:
-            if today_weekday != magazine_weekday:
-                messages.append(msg + f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず{magazine_name}の発売日です。')
+            messages.append(msg + f'今日は{WeekdayUtil().english2japanese(today_weekday)}にも関わらず{magazine_name}の発売日です。')
 
         return messages
 
