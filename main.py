@@ -10,7 +10,10 @@ import requests, tweepy, urllib3
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent  #type: ignore
 
-from secret import API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+API_KEY = os.environ['TWITTER_API_KEY']
+API_KEY_SECRET = os.environ['TWITTER_API_KEY_SECRET']
+ACCESS_TOKEN = os.environ['TWITTER_ACCESS_TOKEN']
+ACCESS_TOKEN_SECRET = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
 
 
 ######################################################################
