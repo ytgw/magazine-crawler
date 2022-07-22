@@ -163,6 +163,7 @@ class MessageSender:
 
     def __log(self, messages: list[str], message_make_time: datetime=datetime.now()) -> None:
         data = {
+            'DEBUG': os.environ.get('DEBUG'),
             'magazine_id': self.magazine_sale_date.magazine.id_,
             'magazine_name': self.magazine_sale_date.magazine.name,
             'magazine_weekday': self.magazine_sale_date.magazine.weekday,
