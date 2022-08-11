@@ -12,7 +12,7 @@ import requests
 import tweepy
 import urllib3
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent  # type: ignore
+from fake_useragent import UserAgent
 
 API_KEY = os.environ["TWITTER_API_KEY"]
 API_KEY_SECRET = os.environ["TWITTER_API_KEY_SECRET"]
@@ -23,7 +23,7 @@ ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
 ######################################################################
 # global setting
 ######################################################################
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ignore
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += "HIGH:!DH"  # type: ignore
 
 logging.basicConfig(
@@ -131,10 +131,22 @@ class MagazineSaleDate:
 
     def __crawl_sale_date(self, url: str) -> date:
         """WEBサイトをクロールして発売日を取得する。"""
-        response = requests.get(url=url, headers={"User-Agent": UserAgent().chrome}, timeout=(3.0, 3.0), verify=False)  # type: ignore
+        response = requests.get(
+            url=url,
+            headers={"User-Agent": UserAgent().chrome},
+            timeout=(3.0, 3.0),
+            verify=False,
+        )
         soup = BeautifulSoup(response.content, "html.parser")
-        sale_date_element = soup.find("body").find(name="div", attrs={"class": "product-kind-container"}).find(name="div", id="product-navi").find(name="ul", attrs={"class": "product-kind-ul"}).find(name="li", attrs={"class": "current"}).find(name="p")  # type: ignore
-        sale_date_str = sale_date_element.get_text()  # type: ignore
+        sale_date_element = (
+            soup.find("body")
+            .find(name="div", attrs={"class": "product-kind-container"})
+            .find(name="div", id="product-navi")
+            .find(name="ul", attrs={"class": "product-kind-ul"})
+            .find(name="li", attrs={"class": "current"})
+            .find(name="p")
+        )
+        sale_date_str = sale_date_element.get_text()
         sale_datetime = datetime.strptime(sale_date_str, "%Y年%m月%d日")
         return date.fromisoformat(sale_datetime.strftime("%Y-%m-%d"))
 
@@ -142,14 +154,14 @@ class MagazineSaleDate:
 @dataclass(frozen=True)
 class MessageSender:
     magazine_sale_date: MagazineSaleDate
-    client: tweepy.Client  # type: ignore
+    client: tweepy.Client
 
     def send_message(self, today: date) -> None:
         messages = self.__make_message(today=today)
         self.__log(messages=messages)
         for message in messages:
             if os.environ.get("DEBUG") == "False":
-                self.client.create_tweet(text=message)  # type: ignore
+                self.client.create_tweet(text=message)
             else:
                 print(message)
 
@@ -213,11 +225,18 @@ if __name__ == "__main__":
         Magazine(id_="2680", name="週刊ヤングジャンプ", weekday="Thursday"),
         Magazine(id_="2685", name="週刊ヤングマガジン", weekday="Monday"),
     ]
-    client = tweepy.Client(consumer_key=API_KEY, consumer_secret=API_KEY_SECRET, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)  # type: ignore
+    client = tweepy.Client(
+        consumer_key=API_KEY,
+        consumer_secret=API_KEY_SECRET,
+        access_token=ACCESS_TOKEN,
+        access_token_secret=ACCESS_TOKEN_SECRET,
+    )
 
     for magazine in MAGAZINES:
         try:
-            message_sender = MessageSender(magazine_sale_date=MagazineSaleDate(magazine=magazine), client=client)  # type: ignore
+            message_sender = MessageSender(
+                magazine_sale_date=MagazineSaleDate(magazine=magazine), client=client
+            )
             message_sender.send_message(today=date.today())
         except Exception as e:
             logger.error(e)
