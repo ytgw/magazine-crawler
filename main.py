@@ -1,14 +1,18 @@
 ######################################################################
 # import
 ######################################################################
-import logging, os, time
+import logging
+import os
+import time
 from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Literal
 
-import requests, tweepy, urllib3
+import requests
+import tweepy
+import urllib3
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent  #type: ignore
+from fake_useragent import UserAgent  # type: ignore
 
 API_KEY = os.environ['TWITTER_API_KEY']
 API_KEY_SECRET = os.environ['TWITTER_API_KEY_SECRET']
