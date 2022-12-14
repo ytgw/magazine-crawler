@@ -31,3 +31,10 @@ extend_skip_glob = ["**/migrations/*"]  # 自動生成されたDB migrationフ�
 
 # strictモードを有効化
 strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "tweepy",
+    "fake_useragent"
+]
+ignore_missing_imports = true
