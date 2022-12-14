@@ -139,14 +139,14 @@ class MagazineSaleDate:
         )
         soup = BeautifulSoup(response.content, "html.parser")
         sale_date_element = (
-            soup.find("body")
+            soup.find("body")  # type: ignore
             .find(name="div", attrs={"class": "product-kind-container"})
             .find(name="div", id="product-navi")
             .find(name="ul", attrs={"class": "product-kind-ul"})
             .find(name="li", attrs={"class": "current"})
             .find(name="p")
         )
-        sale_date_str = sale_date_element.get_text()
+        sale_date_str = sale_date_element.get_text()  # type: ignore
         sale_datetime = datetime.strptime(sale_date_str, "%Y年%m月%d日")
         return date.fromisoformat(sale_datetime.strftime("%Y-%m-%d"))
 
