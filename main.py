@@ -180,6 +180,7 @@ class MessageSender:
             if today not in [previous_sale_date, next_sale_date]:
                 msg = f"【{magazine_name}休刊】"
                 msg += f"今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、いつもと違い{magazine_name}は休刊です。"
+                msg += f'直近の発売日は{previous_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(previous_sale_date.weekday())}で、'
                 msg += f'次の発売日は{next_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
                 messages.append(msg)
 
