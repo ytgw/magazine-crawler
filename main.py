@@ -82,24 +82,30 @@ class WeekdayUtil:
     @staticmethod
     def english2japanese(english: Weekday) -> str:
         if english == "Monday":
-            return "月曜日"
+            return "月"
         if english == "Tuesday":
-            return "火曜日"
+            return "火"
         if english == "Wednesday":
-            return "水曜日"
+            return "水"
         if english == "Thursday":
-            return "木曜日"
+            return "木"
         if english == "Friday":
-            return "金曜日"
+            return "金"
         if english == "Saturday":
-            return "土曜日"
+            return "土"
         if english == "Sunday":
-            return "日曜日"
+            return "日"
         raise Exception(f"{english} is unknown weekday.")
 
     @staticmethod
     def int2japanese(num: int) -> str:
         return WeekdayUtil().english2japanese(WeekdayUtil().int2english(num))
+
+
+def date2str(input_date: date) -> str:
+    date_str = input_date.strftime("%-m/%-d")
+    weekday = WeekdayUtil().int2japanese(input_date.weekday())
+    return f"{date_str}({weekday})"
 
 
 @dataclass(frozen=True)
@@ -179,18 +185,18 @@ class MessageSender:
         if today_weekday == magazine_weekday:
             if today not in [previous_sale_date, next_sale_date]:
                 msg = f"【{magazine_name}休刊】"
-                msg += f"今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、いつもと違い{magazine_name}は休刊です。"
-                msg += f'直近の発売日は{previous_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(previous_sale_date.weekday())}で、'
-                msg += f'次の発売日は{next_sale_date.strftime("%-m月%-d日")}{WeekdayUtil().int2japanese(next_sale_date.weekday())}です。'
+                msg += f"今日{date2str(today)}は{WeekdayUtil().english2japanese(today_weekday)}曜日ですが、いつもと違い{magazine_name}は休刊です。"
+                msg += f"直近の発売日は{date2str(previous_sale_date)}で、次の発売日は{date2str(next_sale_date)}です。"
                 messages.append(msg)
 
         # 発売日の連絡
         if today in [previous_sale_date, next_sale_date]:
             msg = f"【{magazine_name}発売日】"
+            msg += f"今日{date2str(today)}は"
             if today_weekday != magazine_weekday:
-                msg += f"今日は{WeekdayUtil().english2japanese(today_weekday)}ですが、いつもと違い{magazine_name}の発売日です。"
+                msg += f"{WeekdayUtil().english2japanese(today_weekday)}曜日ですが、いつもと違い{magazine_name}の発売日です。"
             else:
-                msg += f"今日は{magazine_name}の発売日です。"
+                msg += f"{magazine_name}の発売日です。"
             messages.append(msg)
 
         return messages
@@ -234,10 +240,12 @@ if __name__ == "__main__":
     )
 
     for magazine in MAGAZINES:
+        today = date.today()
+        # today = date(year=2023, month=1, day=16)
         try:
             message_sender = MessageSender(
                 magazine_sale_date=MagazineSaleDate(magazine=magazine), client=client
             )
-            message_sender.send_message(today=date.today())
+            message_sender.send_message(today=today)
         except Exception as e:
             logger.error(e)
