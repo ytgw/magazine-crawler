@@ -1,8 +1,9 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
+RUN pip install poetry
 
 WORKDIR /app
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root --without=dev
 
-COPY . /app/
-CMD ["python", "main.py"]
+COPY main.py ./
+CMD ["poetry", "run", "python", "main.py"]
