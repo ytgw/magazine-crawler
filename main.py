@@ -14,10 +14,10 @@ import urllib3
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-API_KEY = os.environ["TWITTER_API_KEY"]
-API_KEY_SECRET = os.environ["TWITTER_API_KEY_SECRET"]
-ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
-ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+API_KEY = os.environ.get("TWITTER_API_KEY")
+API_KEY_SECRET = os.environ.get("TWITTER_API_KEY_SECRET")
+ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 
 ######################################################################
@@ -122,18 +122,17 @@ class MagazineSaleDate:
     previous_sale_date: date
     next_sale_date: date
 
-    def __init__(self, magazine: Magazine) -> None:
-        DELAY_TIME_SEC = 10
+    def __init__(self, magazine: Magazine, delay_time_sec: int = 10) -> None:
         self.magazine = magazine
         self.crawl_datetime = datetime.now()
         self.previous_sale_date = self.__crawl_sale_date(
             f"https://www.fujisan.co.jp/product/{self.magazine.id_}/new/"
         )
-        time.sleep(DELAY_TIME_SEC)
+        time.sleep(delay_time_sec)
         self.next_sale_date = self.__crawl_sale_date(
             f"https://www.fujisan.co.jp/product/{self.magazine.id_}/next/"
         )
-        time.sleep(DELAY_TIME_SEC)
+        time.sleep(delay_time_sec)
 
     def __crawl_sale_date(self, url: str) -> date:
         """WEBサイトをクロールして発売日を取得する。"""
