@@ -529,14 +529,14 @@ test = ["vcrpy (>=1.10.3)"]
 
 [[package]]
 name = "types-beautifulsoup4"
-version = "4.12.0.1"
+version = "4.12.0.4"
 description = "Typing stubs for beautifulsoup4"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-beautifulsoup4-4.12.0.1.tar.gz", hash = "sha256:57bcd40e84c8d292c0a1de5267751a3a399ae49a3d826d9a999bc72fe94dcae3"},
-    {file = "types_beautifulsoup4-4.12.0.1-py3-none-any.whl", hash = "sha256:8eaae29a605e5bb46a34160587f61a2a0af9ecfcefbaac983dd67b96ace1ed85"},
+    {file = "types-beautifulsoup4-4.12.0.4.tar.gz", hash = "sha256:977e808b3e4fac0a25126d9f6c738886813862f840167a87c34df00b60154c8f"},
+    {file = "types_beautifulsoup4-4.12.0.4-py3-none-any.whl", hash = "sha256:f5acd76487f220aa8b9906b29e60d6e833379788aca5ffb703d3ea4f7e1d31fb"},
 ]
 
 [package.dependencies]
@@ -613,4 +613,4 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b9e3081d08db2c382d48e791fac0fff8192f2c97ac5cee0bd8bece0d63dc4349"
+content-hash = "766241c873b353a593ed33eb20f68ef2d2f16f68382e2d2e9df2af62e3d72b8c"
