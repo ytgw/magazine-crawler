@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    build: .
+    image: ghcr.io/ytgw/magazine-crawler
     env_file:
       - ./config/docker-compose.env
     volumes:
