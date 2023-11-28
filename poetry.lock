@@ -196,13 +196,13 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "fake-useragent"
-version = "1.3.0"
+version = "1.4.0"
 description = "Up-to-date simple useragent faker with real world database"
 optional = false
 python-versions = "*"
 files = [
-    {file = "fake-useragent-1.3.0.tar.gz", hash = "sha256:0b3a223b4c03e3df46b0e9ff53ad26cf4690f68871396b9c59a7fa6ee830c395"},
-    {file = "fake_useragent-1.3.0-py3-none-any.whl", hash = "sha256:73cee1d10bcd1deb25a15e916f6674c537d2d9088ecb4d7af98c2619f83827d1"},
+    {file = "fake-useragent-1.4.0.tar.gz", hash = "sha256:5426e4015d8ccc5bb25f64d3dfcfd3915eba30ffebd31b86b60dc7a4c5d65528"},
+    {file = "fake_useragent-1.4.0-py3-none-any.whl", hash = "sha256:9acce439ee2c6cf9c3772fa6c200f62dc8d56605063327a4d8c5d0e47f414b85"},
 ]
 
 [[package]]
@@ -605,4 +605,4 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7cd08a07cfe87a2dbb5f32a88c285f6d2a3734b0b704f193c733c882fe8bc438"
+content-hash = "11deebe4ba1b960b47b6ee6a8690c37208623a0eb7dbe65c8876cb90db077aa2"
