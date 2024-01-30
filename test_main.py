@@ -68,7 +68,10 @@ def test_abnormal_sale_date_message() -> None:
 
     messages = sender._MessageSender__make_message(today=sunday)  # type: ignore[attr-defined]
     assert len(messages) == 1
-    assert messages[0] == "【foo発売日】今日4/30(日)は日曜日ですが、いつもと違いfooの発売日です。"
+    assert (
+        messages[0]
+        == "【foo発売日】今日4/30(日)は日曜日ですが、いつもと違いfooの発売日です。"
+    )
 
 
 def test_normal_non_sale_date_message() -> None:
