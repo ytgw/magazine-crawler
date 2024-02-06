@@ -6,13 +6,15 @@ import os
 import time
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Literal
+from typing import Any, Literal
 
-import requests
 import tweepy
-import urllib3
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
+from requests import Session
+from requests.adapters import HTTPAdapter
+from urllib3 import PoolManager
+from urllib3.util import create_urllib3_context  # type: ignore[attr-defined]
 
 API_KEY = os.environ.get("TWITTER_API_KEY")
 API_KEY_SECRET = os.environ.get("TWITTER_API_KEY_SECRET")
@@ -23,9 +25,6 @@ ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 ######################################################################
 # global setting
 ######################################################################
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += "HIGH:!DH"  # type: ignore
-
 logging.basicConfig(
     filename=os.path.join(os.path.dirname(__file__), "data", "magazine-crawler.log"),
     format="%(asctime)s %(levelname)s - %(message)s",
@@ -40,6 +39,17 @@ logger = logging.getLogger()
 Weekday = Literal[
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 ]
+
+
+class AddedCipherAdapter(HTTPAdapter):
+    # https://stackoverflow.com/questions/38015537/python-requests-exceptions-sslerror-dh-key-too-small
+    def init_poolmanager(
+        self, connections: int, maxsize: Any, block: bool = False, **pool_kwargs: Any
+    ) -> Any:
+        ctx = create_urllib3_context(ciphers=":HIGH:!DH")
+        self.poolmanager = PoolManager(
+            num_pools=connections, maxsize=maxsize, block=block, ssl_context=ctx
+        )
 
 
 class WeekdayUtil:
@@ -136,11 +146,12 @@ class MagazineSaleDate:
 
     def __crawl_sale_date(self, url: str) -> date:
         """WEBサイトをクロールして発売日を取得する。"""
-        response = requests.get(
+        session = Session()
+        session.mount(url, AddedCipherAdapter())
+        response = session.get(
             url=url,
             headers={"User-Agent": UserAgent().chrome},
             timeout=(3.0, 3.0),
-            verify=False,
         )
         soup = BeautifulSoup(response.content, "html.parser")
         sale_date_element = (
