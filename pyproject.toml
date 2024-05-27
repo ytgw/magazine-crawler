@@ -10,7 +10,7 @@ packages = [{include = "magazine_crawler"}]
 python = "^3.10"
 beautifulsoup4 = "^4.12.3"
 fake-useragent = "^1.5.1"
-requests = "^2.31.0"
+requests = "^2.32.2"
 tweepy = "^4.14.0"
 urllib3 = "^2.2.1"
 
