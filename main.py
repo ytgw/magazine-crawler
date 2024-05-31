@@ -3,6 +3,7 @@
 ######################################################################
 import logging
 import os
+import ssl
 import time
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -46,7 +47,7 @@ class AddedCipherAdapter(HTTPAdapter):
     def init_poolmanager(
         self, connections: int, maxsize: Any, block: bool = False, **pool_kwargs: Any
     ) -> Any:
-        ctx = create_urllib3_context(ciphers=":HIGH:!DH")
+        ctx = create_urllib3_context(ciphers=":HIGH:!DH", cert_reqs=ssl.CERT_NONE)
         self.poolmanager = PoolManager(
             num_pools=connections, maxsize=maxsize, block=block, ssl_context=ctx
         )
@@ -152,6 +153,7 @@ class MagazineSaleDate:
             url=url,
             headers={"User-Agent": UserAgent().chrome},
             timeout=(3.0, 3.0),
+            verify=False,
         )
         soup = BeautifulSoup(response.content, "html.parser")
         sale_date_element = (
