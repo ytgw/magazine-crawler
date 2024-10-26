@@ -15,7 +15,7 @@ jobs:
       max-parallel: 1
       matrix:
         # python 3.12 is default version of Ubuntu 24.04 LTS
-        python-version: ["3.12", "3.13"]
+        python-version: ["3.12"]
 
     steps:
       -
