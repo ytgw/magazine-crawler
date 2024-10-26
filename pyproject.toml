@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "magazine_crawler"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 beautifulsoup4 = "^4.12.3"
 fake-useragent = "^1.5.1"
 requests = "^2.31.0"

@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        # python 3.10 is default version of Ubuntu 22.04 LTS
-        python-version: ["3.10", "3.11", "3.12"]
+        # python 3.12 is default version of Ubuntu 24.04 LTS
+        python-version: ["3.12", "3.13"]
 
     steps:
       -
