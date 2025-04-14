@@ -12,7 +12,7 @@ beautifulsoup4 = "^4.13.3"
 fake-useragent = "^2.1.0"
 requests = "^2.31.0"
 tweepy = "^4.15.0"
-urllib3 = "^2.3.0"
+urllib3 = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
